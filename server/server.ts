@@ -1,11 +1,16 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+
+import userRoutes from "./routes/users";
 
 dotenv.config();
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 5001;
+app.use(express.json());
+app.use(cors());
 
 const connectToDatabase = async () => {
   try {
@@ -18,9 +23,7 @@ const connectToDatabase = async () => {
 
 connectToDatabase();
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
-});
+app.use("/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
