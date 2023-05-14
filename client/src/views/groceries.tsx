@@ -24,7 +24,7 @@ import { db } from "../firebase/config";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Grocery {
-  id: string;
+  id?: string;
   name: string;
   quantity: number;
   addedBy: string;
@@ -58,7 +58,6 @@ const Groceries = () => {
     e.preventDefault();
     try {
       const groceryData: Grocery = {
-        id: "", // Placeholder value, will be assigned a unique ID later
         name: name,
         quantity: quantity,
         addedBy: "user123", // Replace with the appropriate user identifier
@@ -67,9 +66,9 @@ const Groceries = () => {
       };
 
       const docRef = await addDoc(collection(db, "groceries"), groceryData);
-      groceryData.id = docRef.id;
+      const newGrocery = { id: docRef.id, ...groceryData };
 
-      setGroceries([...groceries, groceryData]);
+      setGroceries([...groceries, newGrocery]);
       setName("");
       setQuantity(0);
     } catch (error) {
@@ -90,6 +89,7 @@ const Groceries = () => {
 
   useEffect(() => {
     fetchGroceries();
+    console.log(groceries);
   }, []);
 
   return (
@@ -113,7 +113,7 @@ const Groceries = () => {
                 <TableCell>{grocery.name}</TableCell>
                 <TableCell>{grocery.quantity}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => deleteGrocery(grocery.id)}>
+                  <IconButton onClick={() => deleteGrocery(grocery.id!)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
