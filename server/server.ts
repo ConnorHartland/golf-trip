@@ -4,11 +4,13 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import userRoutes from "./routes/users";
+import groceryRoutes from "./routes/groceries";
 
 dotenv.config();
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 5001;
+
 app.use(express.json());
 app.use(cors());
 
@@ -24,6 +26,7 @@ const connectToDatabase = async () => {
 connectToDatabase();
 
 app.use("/users", userRoutes);
+app.use("/groceries", groceryRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

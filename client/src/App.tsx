@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import HomePage from "./views/home";
 import styled from "@emotion/styled";
+import Groceries from "./views/groceries";
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/groceries" element={<Groceries />} />
+          <Route path="/schedule" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </AppContainer>
